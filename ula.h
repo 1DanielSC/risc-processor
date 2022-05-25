@@ -33,38 +33,38 @@ SC_MODULE(ula) {
 
 		switch (opcode.read()) {
 
-			//ADI«√O
-		case 6:
+		//ADI√á√ÉO
+		case 7:
 			resultado.write(operando1.read() + operando2.read());
 			break;
 
-			//SUBTRA«√O
-		case 7:
+		//SUBTRA√á√ÉO
+		case 8:
 			resultado.write(operando1.read() - operando2.read());
 			break;
 
-			//XOR
-		case 8: 
+		//XOR
+		case 9: 
 			resultado.write(operando1.read() ^ operando2.read());
 			break;
 
-			//AND
-		case 9:
+		//AND
+		case 10:
 			resultado.write(operando1.read() & operando2.read());
 			break;
 
-			//OR
-		case 10:
+		//OR
+		case 11:
 			resultado.write(operando1.read() | operando2.read());
 			break;
 
-			//NOT
-		case 11:
+		//NOT
+		case 12:
 			resultado.write(~ operando1.read());
 			break;
 
-			//CMP
-		case 12: 
+		//CMP
+		case 13: 
 			zero.write(operando1.read() == operando2.read());
 			negativo.write(operando1.read() < operando2.read());
 			break;
@@ -74,21 +74,7 @@ SC_MODULE(ula) {
 			resultado.write(0);
 		}
 
+		zero.write(operando1.read() == operando2.read());
+		negativo.write(operando1.read() < operando2.read());
 
-/*
-		if (this->resultado == 0) {
-				this->zero = 1;
-				this->negativo = 0;
-		}
-		else if (resultado > 0) {
-			this->zero = 0;
-			this->negativo = 0;
-		}
-		else {
-			this->zero = 0;
-			this->negativo = 1;
-		}
-
-	}
-*/
 };
