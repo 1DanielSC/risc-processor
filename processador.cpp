@@ -32,7 +32,7 @@ SC_MODULE(processador){
 
 
 
-	sc_signal<bool> sinal_clock;
+	sc_in<bool> sinal_clock;
 
 //FLAGS
 	sc_signal<bool> sinal_zero;
