@@ -30,20 +30,18 @@ SC_MODULE(banco_registradores) {
 		banco = std::vector<sc_uint<32>>(512);
 	}
 
-	void func();
+	void func(){
+		if(enable.read()){
 
-};
-
-void banco_registradores::func() {
-	if(enable.read()){
-
-		if(write.read()){
-			banco[op3.read()].write(valor.read());
+			if(write.read()){
+				banco[op3.read()].write(valor.read());
 			
-		}
-		else{
-			valor_op1.write(banco[op1.read()]);
-			valor_op2.write(banco[op2.read()]);
+			}
+			else{
+				valor_op1.write(banco[op1.read()]);
+				valor_op2.write(banco[op2.read()]);
+			}
 		}
 	}
-}
+
+};
