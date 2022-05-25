@@ -1,5 +1,14 @@
 #include "systemc.h"
-
+#include "decodificador.h"
+#include "pc.h"
+#include "pipeline_reg.h"
+#include "controle.h"
+#include "ula.h"
+#include "mem_instrucoes.h"
+#include "mux_mem_dados.h"
+#include "mux_banco_registradores.h"
+#include "mux_mem_dados.h"
+#include "banco_registradores.h"
 
 SC_MODULE(processador){
 
