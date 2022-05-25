@@ -15,20 +15,23 @@ int randint(int a, int b){return std::uniform_int_distribution<int>(a, b)(rng);}
 
 
 std::map<std::string,int> code={
-    {"AND",0},
-    {"OR",1},
-    {"XOR",2},
-    {"NOT",3},
-    {"CMP",4},
-    {"SUB",5},
-    {"LD",6},
-    {"ST",7},
-    {"J",8},
-    {"JN",9},
-    {"JZ",10}
+
+    {"J",1},
+    {"JZ",2},
+    {"JN",3},
+    {"LI",4},
+    {"LD",5},
+    {"ST",6},
+    {"ADD",7},
+    {"SUB",8},
+    {"XOR",9},
+    {"AND",10},
+    {"OR",11},
+    {"NOT",12},
+    {"CMP",13},
 };
 
-std::vector<std::string> possibleOperations = {"AND","OR","XOR","NOT","CMP","SUB","LD","ST","J","JN","JZ"};
+std::vector<std::string> possibleOperations = {"AND","ADD","LI","OR","XOR","NOT","CMP","SUB","LD","ST","J","JN","JZ"};
 
 std::string genInt(){
     return std::to_string(randint(0,registerSize-1));
