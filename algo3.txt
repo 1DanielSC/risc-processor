@@ -1,0 +1,11 @@
+//does x^2
+memset 1 20
+memset 2 1
+
+LD 1 1
+LD 2 2
+
+ADD 1 4 4
+ADD 3 2 3
+SUB 3 1 11
+JN 4

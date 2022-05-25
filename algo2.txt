@@ -1,0 +1,11 @@
+//gets next power of 2 and aproximates log_2(n);
+memset 1 20
+memset 2 1
+
+LD 1 1
+LD 2 2
+LD 2 3
+ADD 2 2 2
+ADD 4 3 4
+SUB 2 1 10
+JN 4

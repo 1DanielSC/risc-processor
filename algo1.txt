@@ -1,0 +1,17 @@
+//does for(int i=inicio(5);i<size(4);i+=jmp(6))
+memset 1 20
+memset 2 23
+memset 3 40
+memset 4 3
+memset 5 1
+memset 6 1
+
+LD 4 1
+LD 5 2
+LD 6 3
+LD 1 5
+ADD 4 5 4 
+ADD 2 3 2
+ST 2 1
+SUB 2 1 10
+JN 4
