@@ -29,6 +29,7 @@ int convertToInstruction(std::string operacao,int op1,int op2,int op3){
 int main(){
     processador PROCESSADOR;
     std::string line;
+    int id=0;
     while(std::getline (std::cin,line)){
         std::stringstream ss(line); 
         std::string operation;
@@ -45,7 +46,7 @@ int main(){
         }
         if(operation!="memset"){
             sc_uint<32> instrucao = convertToInstruction(operation,operandos[0],operandos[1],operandos[2]);
-            PROCESSADOR.MEM_INSTRUCOES.instrucoes.push_back(instrucao);
+            PROCESSADOR.MEM_INSTRUCOES.instrucoes[id++]=instrucao;
         }
         else{
             int posicao = operandos[0];
