@@ -16,7 +16,7 @@ SC_MODULE(pc) {
 
 
 
-	SC_CTOR(ula) {
+	SC_CTOR(pc) {
 
 		SC_METHOD(func); 
 		sensitive << clk.pos(); 

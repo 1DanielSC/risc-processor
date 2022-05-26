@@ -76,5 +76,5 @@ SC_MODULE(ula) {
 
 		zero.write(operando1.read() == operando2.read());
 		negativo.write(operando1.read() < operando2.read());
-
+}
 };

@@ -34,7 +34,7 @@ SC_MODULE(banco_registradores) {
 		if(enable.read()){
 
 			if(write.read()){
-				banco[op3.read()].write(valor.read());
+				banco[op3.read()]=(valor.read());
 			
 			}
 			else{

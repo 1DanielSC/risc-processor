@@ -31,7 +31,7 @@ SC_MODULE(memoria_dados) {
 		if(enable.read()){
 
 			if(write.read())
-				banco[endereco.read()].write(valor_entrada.read());
+				banco[endereco.read()]=(valor_entrada.read());
 			else
 				valor_saida.write(banco[endereco.read()]);
 		}

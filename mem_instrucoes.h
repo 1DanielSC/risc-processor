@@ -16,7 +16,7 @@ SC_MODULE(mem_instrucoes) {
 
 	sc_in<bool> clk;
 
-	SC_CTOR(controle) {
+	SC_CTOR(mem_instrucoes) {
 
 		SC_METHOD(func); 
 		sensitive << clk.pos(); 

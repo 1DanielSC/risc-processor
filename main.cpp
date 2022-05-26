@@ -1,3 +1,5 @@
+#include <systemc.h>
+#include "processador.h"
 #include <iostream>
 #include<map>
 #include<string>
@@ -6,17 +8,19 @@
 
 
 std::map<std::string,int> code={
-    {"AND",0},
-    {"OR",1},
-    {"XOR",2},
-    {"NOT",3},
-    {"CMP",4},
-    {"SUB",5},
-    {"LD",6},
-    {"ST",7},
-    {"J",8},
-    {"JN",9},
-    {"JZ",10}
+    {"J",1},
+    {"JZ",2},
+    {"JN",3},
+    {"LI",4},
+    {"LD",5},
+    {"ST",6},
+    {"ADD",7},
+    {"SUB",8},
+    {"XOR",9},
+    {"AND",10},
+    {"OR",11},
+    {"NOT",12},
+    {"CMP",13},
 };
 
 int convertToInstruction(std::string operacao,int op1,int op2,int op3){
@@ -26,10 +30,12 @@ int convertToInstruction(std::string operacao,int op1,int op2,int op3){
 
 
 //compile then run it with ./main < file.txt
-int main(){
-    processador PROCESSADOR;
+int sc_main(int argc, char* argv[]) {
+    
+    processador PROCESSADOR("PROC");
     std::string line;
     int id=0;
+
     while(std::getline (std::cin,line)){
         std::stringstream ss(line); 
         std::string operation;
@@ -53,5 +59,9 @@ int main(){
             sc_uint<32> valor = operandos[1];
             PROCESSADOR.MEM_DADOS.banco[posicao]=valor;
         }
+        
     }
+    std::cout<<PROCESSADOR.MEM_DADOS.banco[4]<<std::endl;
+
+    return 0;
 }

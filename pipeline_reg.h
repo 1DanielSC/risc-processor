@@ -23,7 +23,7 @@ SC_MODULE(pipeline_reg){
 
 	sc_in <bool> clk;
 
-	CTOR(pipeline_reg){
+	SC_CTOR(pipeline_reg){
 		SC_METHOD(func);
 		sensitive << clk.pos();
 	}
@@ -50,7 +50,7 @@ SC_MODULE(pipeline_reg){
 				opcode_saida.write(op);
 				op1_saida.write(fonte1);
 				op2_saida.write(fonte2);
-				op3_saida.write(destino)
+				op3_saida.write(destino);
 
 			}
 

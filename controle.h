@@ -236,7 +236,7 @@ SC_MODULE(controle) {
 				}
 
 				//ULA
-				else if(opcode != 0){ //OPERAÇÃO DA ULA
+				else if(opcode != sc_uint<5>(0)){ //OPERAÇÃO DA ULA
 
 					//A ULA recebe tambem o OPCODE e será ativada para
 						//executar a operação
