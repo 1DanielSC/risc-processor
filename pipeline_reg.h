@@ -5,7 +5,7 @@ using namespace sc_core;
 
 
 SC_MODULE(pipeline_reg){
-
+	
 	sc_in <bool> enable;
 	sc_in <bool> write;
 
@@ -40,7 +40,6 @@ SC_MODULE(pipeline_reg){
 				fonte1 = op1_entrada.read();
 				fonte2 = op2_entrada.read();
 				destino = op3_entrada.read();
-
 				opcode_saida.write(op);
 				op1_saida.write(fonte1);
 				op2_saida.write(fonte2);

@@ -4,7 +4,7 @@
 using namespace sc_core;
 
 SC_MODULE(mem_instrucoes) {
-
+	
 
 	std::vector<sc_uint<32>> instrucoes;
 
@@ -17,7 +17,6 @@ SC_MODULE(mem_instrucoes) {
 	sc_in<bool> clk;
 
 	SC_CTOR(mem_instrucoes) {
-
 		SC_METHOD(func); 
 		sensitive << clk.pos(); 
 		instrucoes = std::vector<sc_uint<32>>(512);
@@ -26,7 +25,7 @@ SC_MODULE(mem_instrucoes) {
 
 	void func() {
 		if(enable.read()){
-
+			//cout<<"instrucao "<<" "<<endereco_instrucao.read()<<" "<<instrucoes[endereco_instrucao.read()]<<endl;
 			instrucao.write(instrucoes[endereco_instrucao.read()]);
 		}
 	}

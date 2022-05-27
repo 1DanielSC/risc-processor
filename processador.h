@@ -9,6 +9,32 @@
 #include "mux_banco_registradores.h"
 #include "memoria_dados.h"
 #include "banco_registradores.h"
+#include<map>
+#include <iostream>
+#include<string>
+#include <vector>
+#include <sstream>
+
+std::map<std::string,int> code={
+    {"J",1},
+    {"JZ",2},
+    {"JN",3},
+    {"LI",4},
+    {"LD",5},
+    {"ST",6},
+    {"ADD",7},
+    {"SUB",8},
+    {"XOR",9},
+    {"AND",10},
+    {"OR",11},
+    {"NOT",12},
+    {"CMP",13},
+};
+
+int convertToInstruction(std::string operacao,int op1,int op2,int op3){
+    int opcode=code[operacao];
+    return opcode + (op1<<5) + (op2<<14) + (op3<<23);
+}
 
 SC_MODULE(processador){
 
@@ -90,15 +116,15 @@ SC_MODULE(processador){
 	sc_signal<sc_uint<9>> sinal_op3_pipe;
 
 //REGISTRADOR PIPELINE E CONTROLE/ULA
-	sc_signal<sc_uint<5>> sinal_opcode; 
-	sc_signal<sc_uint<9>> sinal_op1;
-	sc_signal<sc_uint<9>> sinal_op2;
-	sc_signal<sc_uint<9>> sinal_op3;
+	sc_signal<sc_uint<5>,SC_MANY_WRITERS> sinal_opcode;
+	sc_signal<sc_uint<9>,SC_MANY_WRITERS> sinal_op1;
+	sc_signal<sc_uint<9>,SC_MANY_WRITERS> sinal_op2;
+	sc_signal<sc_uint<9>,SC_MANY_WRITERS> sinal_op3;
 
 	
 
-	SC_CTOR(processador){
-		sensitive<<clock.pos();
+	processador(sc_module_name _name): sc_module{_name}{
+		
 		PC.pc_jump(sinal_pc_jump);
 		PC.enable(sinal_enable_pc);
 		PC.clk(sinal_clock);
@@ -226,6 +252,35 @@ SC_MODULE(processador){
 		BANCO_REGISTRADORES.valor_op1(sinal_op1_valor);
 		BANCO_REGISTRADORES.valor_op2(sinal_op2_valor);
 
+		sensitive<<sinal_clock.pos();
+	    std::string line;
+		int id=0;
+		while(std::getline (std::cin,line)){
+				std::stringstream ss(line); 
+				std::string operation;
+				ss>>operation;
+
+				std::vector<int> operandos;
+				int valor;
+				while(ss>>valor){
+					operandos.push_back(valor);
+				}
+
+				while(operandos.size()<3){
+					operandos.push_back(0);
+				}
+				if(operation!="memset"){
+					sc_uint<32> instrucao = convertToInstruction(operation,operandos[0],operandos[1],operandos[2]);
+					MEM_INSTRUCOES.instrucoes[id++]=instrucao;
+				}
+				else{
+					int posicao = operandos[0];
+					sc_uint<32> valor = operandos[1];
+					MEM_DADOS.banco[posicao]=valor;
+				}
+				
+			}
+		MEM_INSTRUCOES.instrucoes[id]=15;
 	}
 
 };

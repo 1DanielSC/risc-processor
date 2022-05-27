@@ -2,7 +2,7 @@
 
 //OPCODES
 
-#define STOP 0
+#define STOP 15
 #define JUMP_INCONDICIONAL 1
 #define JUMP_CONDICIONAL_ZERO 2
 #define JUMP_CONDICIONAL_NEGATIVO 3
@@ -88,6 +88,8 @@ SC_MODULE(controle) {
 	}
 
 	void func() {
+		cout<<"state "<<estado_atual<<endl;
+		sleep(1);
 		switch(estado_atual){
 
 			case 0:	//fetch instrução 
@@ -128,13 +130,13 @@ SC_MODULE(controle) {
 				
 
 				//colocar nova instrucao no pipeline
-				enable_mem_instrucoes.write(false);
+				
+				enable_mem_instrucoes.write(true);
 				pipeline_reg_enable.write(true);
 				pipeline_reg_write.write(true);
 				enable_pc.write(false);
 
-
-
+				cout<<"opcode "<<opcode.read()<<" "<<op1.read()<<" "<<op2.read()<<" "<<op3.read()<<endl;
 				if(opcode.read() == JUMP_INCONDICIONAL){
 					pc_jump.write(true);
 					enable_pc.write(false);
@@ -249,6 +251,8 @@ SC_MODULE(controle) {
 					estado_atual = 6; //SALVAR RESULTADO
 
 				}
+				
+				break;
 
 			case 6: //WRITE ULA RESULT
 				//Os sinais abaixo vai fazer com que 

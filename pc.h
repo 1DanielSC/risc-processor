@@ -24,10 +24,10 @@ SC_MODULE(pc) {
 	}
 
 	void func() {
-
+		//cout<<"enable "<<enable.read()<<endl;
 		if(enable.read()){
-			count++;
 			endereco_instrucao.write(count);
+			count++;
 		}
 		else if(pc_jump.read()){
 			count = instrucao_jump.read();

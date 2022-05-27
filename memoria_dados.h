@@ -29,11 +29,12 @@ SC_MODULE(memoria_dados) {
 
 	void func() {
 		if(enable.read()){
-
+			
 			if(write.read())
 				banco[endereco.read()]=(valor_entrada.read());
-			else
+			else{
 				valor_saida.write(banco[endereco.read()]);
+			}
 		}
 	}
 
