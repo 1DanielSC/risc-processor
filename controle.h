@@ -33,6 +33,11 @@ SC_MODULE(controle) {
 	sc_out <bool> enable_mem_instrucoes;
 
 //-----------------------------------------------
+
+	//SINAIS - DECODIFICADOR
+	sc_out <bool> enable_decodificador;
+
+//-----------------------------------------------
 	
 	//SINAIS - ULA
 	sc_in <bool> zero;
@@ -94,49 +99,81 @@ SC_MODULE(controle) {
 
 			case 0:	//fetch instrução 
 
+//incrementar o contador de programa
+//habilitar a memoria de instrucoes
+
+
 				enable_pc.write(true); //incrementar
 				enable_mem_instrucoes.write(true);
 				estado_atual = 1;
 				break;
 
-			case 1: //obter instrução da memoria
+
+			case 1: 
+//Temos a instrucao a ser executada
+//Vamos, entao, desabilitar a memoria de instrucoes
+//pausar o contador de programa
+//habilitar o decodificador
 
 				enable_pc.write(false); //parar de incrementar
+				enable_mem_instrucoes.write(false); //disable, ja temos a instrucao
+				enable_decodificador.write(true);
 				estado_atual = 2;
 				break;
 
+
 			case 2:
+
+//o decodificador recebeu a instrucao e produziu o resultado - desabilitá-lo
+//escrever o resultado nos registradores de pipeline - habilitar o registrador do pipeline
+
 				if(pipeline_reset){
 					estado_atual = 0;
 					pipeline_reset = false;
 				}
 				else{
+
+
+
+					//disable decodificador
+					enable_decodificador.write(false);
+
+
 					//load nos registradores de pipeline
 					pipeline_reg_enable.write(true);
 					pipeline_reg_write.write(true);
-
-					//incrementar o contador (proxima instrucao)
-					enable_pc.write(true);
 
 					estado_atual = 3;
 				}
 
 				break;
 
+//os registradores do pipeline receberam a instrucao - desabilitar
+			case 3:
+				pipeline_reg_enable.write(false);
+				//-----------
+				//vamos obter a proxima instrucao
+				enable_pc.write(true);
+				enable_mem_instrucoes.write(true);
+				//-----------
+				estado_atual = 4;
+				break;
 
-			case 3: //LEITURA DO OPCODE PARA SABER QUAL INSTRUÇÃO
+
+			case 4: //LEITURA DO OPCODE PARA SABER QUAL INSTRUÇÃO
 				//Com a leitura do opcode, o controlador irá
 					// ativar o componente do datapath responsável pela operação
 				
 
 				//colocar nova instrucao no pipeline
-				
-				enable_mem_instrucoes.write(true);
-				pipeline_reg_enable.write(true);
-				pipeline_reg_write.write(true);
+				enable_mem_instrucoes.write(false);
+				enable_decodificador.write(true);
 				enable_pc.write(false);
 
+				
+
 				cout<<"opcode "<<opcode.read()<<" "<<op1.read()<<" "<<op2.read()<<" "<<op3.read()<<endl;
+				
 				if(opcode.read() == JUMP_INCONDICIONAL){
 					pc_jump.write(true);
 					enable_pc.write(false);
@@ -152,10 +189,9 @@ SC_MODULE(controle) {
 						pc_jump.write(true);
 						pc_jump_value.write(op3);
 						reset_zn.write(true); //resetar as flags Zero e Negativo
-						estado_atual = 8;
 						pipeline_reset = true; //restart pipeline
 					}
-					
+					estado_atual = 8;
 				}
 
 				//JN
@@ -164,9 +200,9 @@ SC_MODULE(controle) {
 						pc_jump.write(true);
 						pc_jump_value.write(op3);
 						reset_zn.write(true); //resetar as flags Zero e Negativo
-						estado_atual = 8;
 						pipeline_reset = true; //restart pipeline
 					}
+					estado_atual = 8;
 				}
 
 				else if(opcode.read() == LEITURA_MEMORIA || opcode.read() == LOAD_IMMEDIATE){
@@ -181,8 +217,6 @@ SC_MODULE(controle) {
 
 						//As 5 etapas acima ocorrem no mesmo clock
 						//MUX funciona no mesmo clock assim como armazenamento de valor no banco
-
-
 						estado_atual = 9;
 					}
 
@@ -190,7 +224,7 @@ SC_MODULE(controle) {
 							//1ª parte - obter o valor armazenado na memoria
 
 						enable_mem_dados.write(true);
-						write_mem_dados = false;
+						write_mem_dados.write(false);
 
 						//Seletor para leitura
 						//O valor false vai fazer com que se pegue o
@@ -231,7 +265,7 @@ SC_MODULE(controle) {
 							//valor do OP3
 					seletor_mux_mem_dados.write(false);
 
-					estado_atual = 12;
+					estado_atual = 7;
 				}
 				else if(opcode.read() == STOP){
 					sc_stop();
@@ -244,10 +278,10 @@ SC_MODULE(controle) {
 						//executar a operação
 
 					//Sinais para ativacao da ULA (executar a operacao)
-					enable_banco_reg.write(true);
-					write_banco_reg.write(false);
+					enable_banco_reg.write(true); //ativar o banco de registradores
+					write_banco_reg.write(false); //leitura do banco de registradores
 
-					seletor_mux_banco_reg.write(0);
+					seletor_mux_banco_reg.write(0); //ler campo "resultado_ula"
 					estado_atual = 6; //SALVAR RESULTADO
 
 				}
@@ -261,11 +295,26 @@ SC_MODULE(controle) {
 				enable_banco_reg.write(true);
 				write_banco_reg.write(true);
 
-				enable_mem_dados.write(false); 
-	
-				pipeline_reg_enable.write(false); //parar a propagação do pipeline
-
 				estado_atual = 9; //Proximo estado
+
+				enable_decodificador.write(false); //parar a propagação do pipeline
+					//o decodificador nao ira passar a proxima instrucao 
+						//pros registradores de pipeline
+				break;
+
+
+			case 7: //EXECUTAR ESCRITA MEMORIA  - 2ª parte
+				//Obtivemos o valor do operando na 1ª parte
+					//Estado para armazená-lo na memória
+
+				enable_mem_dados.write(true);
+				write_mem_dados.write(true);
+
+
+				estado_atual = 9;
+
+				enable_decodificador.write(false); //parar a propagação do pipeline
+				
 				break;
 
 			case 8: //o PC ja leu a instrucao do jump
@@ -275,20 +324,16 @@ SC_MODULE(controle) {
 				estado_atual = 2;
 				break;
 
-
 			case 9: //FECHAR OS CANAIS ABERTOS - FINALIZAÇÃO
 
 				enable_banco_reg.write(false);
 				enable_mem_dados.write(false);
 
-
-				pipeline_reg_enable.write(false); //parar a propagação do pipeline
-
 				estado_atual = 2; //ja temos a proxima instrucao do pipeline
 
+				enable_decodificador.write(false); //parar a propagação do pipeline
+
 				break;
-				//stop pipeline
-					//memoria de instrucoes travada
 
 
 			case 10: //SALVAR RESULTADO DA LEITURA NO REGISTRADOR
@@ -298,26 +343,9 @@ SC_MODULE(controle) {
 				enable_banco_reg.write(true);
 				write_banco_reg.write(true);
 
-				pipeline_reg_enable.write(false); //parar a propagação do pipeline
-
 				estado_atual = 9;
 				break;
 
-
-			case 12://EXECUTAR ESCRITA MEMORIA  - 2ª parte
-				//Obtivemos o valor do operando na 1ª parte
-					//Estado para armazená-lo na memória
-
-				enable_mem_dados.write(true);
-				write_mem_dados.write(true);
-
-
-				pipeline_reg_enable.write(false); //parar a propagação do pipeline
-					//Evitar a escrita de um valor antigo
-
-				estado_atual = 9;
-
-				break;
 		
 		}
 	}

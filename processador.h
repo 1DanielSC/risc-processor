@@ -72,6 +72,7 @@ SC_MODULE(processador){
 	sc_signal<bool> sinal_enable_banco_reg;
 	sc_signal<bool> sinal_enable_ula;
 	sc_signal<bool> sinal_pipeline_reg_enable;
+	sc_signal<bool> sinal_enable_decodificador;
 
 //WRITE
 	sc_signal<bool> sinal_write_mem_dados;
@@ -138,7 +139,8 @@ SC_MODULE(processador){
 		MEM_INSTRUCOES.clk(sinal_clock);
 
 
-
+		DECODIFICADOR.clk(sinal_clock);
+		DECODIFICADOR.enable(sinal_enable_decodificador);
 		DECODIFICADOR.instrucao(sinal_instrucao);
 		DECODIFICADOR.opcode(sinal_opcode_pipe);
 		DECODIFICADOR.op1(sinal_op1_pipe);
@@ -185,6 +187,8 @@ SC_MODULE(processador){
 		CONTROLE.pc_jump(sinal_pc_jump);
 		CONTROLE.pc_jump_value(sinal_pc_jump_value);
 
+
+		CONTROLE.enable_decodificador(sinal_enable_decodificador);
 
 		CONTROLE.pipeline_reg_write(sinal_pipeline_reg_write);
 		CONTROLE.pipeline_reg_enable(sinal_pipeline_reg_enable);
