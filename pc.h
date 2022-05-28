@@ -24,7 +24,7 @@ SC_MODULE(pc) {
 	}
 
 	void func() {
-		//cout<<"enable "<<enable.read()<<endl;
+		cout<<"CONTADOR PC: "<<count<<endl;
 		if(enable.read()){
 			endereco_instrucao.write(count);
 			count++;

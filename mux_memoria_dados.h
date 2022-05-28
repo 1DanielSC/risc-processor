@@ -24,12 +24,16 @@ SC_MODULE(mux_memoria_dados) {
 
 	void func() {
 		//LEITURA DE MEMORIA
-		if(seletor.read() == true) 
+		if(seletor.read() == true) {
 			endereco_saida.write(op1.read());
+		}
+			
 		
 		//ESCRITA NA MEMORIA
-		else
+		else{
 			endereco_saida.write(op3.read());
+		}
+			
 		
 	}
 

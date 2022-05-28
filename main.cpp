@@ -25,15 +25,18 @@ int sc_main(int argc, char* argv[]) {
 		sc_start(1, SC_NS);
 		numberCycles++;
 	}
-    std::cout<<numberCycles<<std::endl;
+    std::cout<< "Numero de ciclos: "<< numberCycles<<std::endl;
+    std::cout<< "Banco de Registradores: "<<std::endl;
     for(int i=0;i<20;i++){
         std::cout<<PROCESSADOR.BANCO_REGISTRADORES.banco[i]<<" ";
     }
     cout<<endl;
+    std::cout<< "Memoria de Instrucoes: "<<std::endl;
     for(int i=0;i<20;i++){
         std::cout<<PROCESSADOR.MEM_INSTRUCOES.instrucoes[i]<<" ";
     }
     cout<<endl;
+    std::cout<< "Memoria de dados: "<<std::endl;
     for(int i=0;i<20;i++){
         std::cout<<PROCESSADOR.MEM_DADOS.banco[i]<<" ";
     }

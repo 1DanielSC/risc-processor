@@ -34,14 +34,17 @@ SC_MODULE(mux_banco_registradores) {
 		
 		if(seletor.read() == 0) { //resultado da ULA
 			valor_saida.write(resultado_ula.read());
+			std::cout << "Resultado ULA: " << resultado_ula.read() << std:: endl;
 		}
 		
 		else if(seletor.read() == 1){ //valor vindo da memoria
 			valor_saida.write(valor_memoria.read());
+			std::cout << "Valor memoria: " << valor_memoria.read() << std:: endl;
 		}
 		else{ //valor imediato
 
 			valor_saida.write(imediato.read());
+			std::cout << "Imediato: " << imediato.read() << std:: endl;
 		}
 		
 	}

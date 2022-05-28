@@ -4,5 +4,11 @@ memset 3 40
 memset 4 3
 memset 5 1
 memset 6 1
-LD 4 1
-ADD 1 2 3
+LD 4 0 2
+SUB 1 0 5
+J 0 0 6
+ADD 0 2 5
+ADD 0 2 5
+ADD 0 2 5
+ADD 0 2 5
+ADD 0 2 5

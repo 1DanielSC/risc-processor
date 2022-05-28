@@ -187,6 +187,7 @@ SC_MODULE(controle) {
 
 					if(zero.read()){
 						pc_jump.write(true);
+						enable_pc.write(false);
 						pc_jump_value.write(op3);
 						reset_zn.write(true); //resetar as flags Zero e Negativo
 						pipeline_reset = true; //restart pipeline
@@ -198,6 +199,7 @@ SC_MODULE(controle) {
 				else if(opcode.read() == JUMP_CONDICIONAL_NEGATIVO){
 					if(negativo.read()){
 						pc_jump.write(true);
+						enable_pc.write(false);
 						pc_jump_value.write(op3);
 						reset_zn.write(true); //resetar as flags Zero e Negativo
 						pipeline_reset = true; //restart pipeline
@@ -268,6 +270,8 @@ SC_MODULE(controle) {
 					estado_atual = 7;
 				}
 				else if(opcode.read() == STOP){
+					std::cout <<"INSTRUÇÃO STOP ACIONADA!" << std::endl;
+					std::cout <<"FIM DA EXECUÇÃO" << std::endl;
 					sc_stop();
 				}
 
