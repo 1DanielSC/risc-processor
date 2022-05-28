@@ -91,11 +91,10 @@ SC_MODULE(processador){
 
 //PC
 	sc_signal<bool> sinal_pc_jump;
-	sc_signal< sc_uint<9> > sinal_instrucao_jump;
+	sc_signal< sc_uint<9> > sinal_instrucao_jump; //endereco jump
 	sc_signal< sc_uint<32> > sinal_endereco_instrucao; //PC - MEM INSTRUCOES
 
 
-	sc_signal<sc_uint<9>> sinal_pc_jump_value; //op3?
 	sc_signal< sc_uint<32> > sinal_instrucao;
 
 
@@ -185,7 +184,7 @@ SC_MODULE(processador){
 		CONTROLE.reset_zn(sinal_reset_zn);
 		
 		CONTROLE.pc_jump(sinal_pc_jump);
-		CONTROLE.pc_jump_value(sinal_pc_jump_value);
+		CONTROLE.pc_jump_value(sinal_instrucao_jump);
 
 
 		CONTROLE.enable_decodificador(sinal_enable_decodificador);
