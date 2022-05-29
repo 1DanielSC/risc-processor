@@ -89,7 +89,7 @@ SC_MODULE(controle) {
 
 	void func() {
 		cout<<"state "<<estado_atual<<endl;
-		sleep(1);
+		//sleep(1);
 		switch(estado_atual){
 
 			case 0:	//fetch instrução 
@@ -171,8 +171,8 @@ SC_MODULE(controle) {
 
 				else if(opcode.read() == LEITURA_MEMORIA || opcode.read() == LOAD_IMMEDIATE){
 					
-					enable_banco_reg.write(true);
-					write_banco_reg.write(true);
+					//enable_banco_reg.write(true);
+					//write_banco_reg.write(true);
 
 					if(opcode.read() == LOAD_IMMEDIATE){
 						seletor_mux_banco_reg.write(2);
@@ -190,7 +190,7 @@ SC_MODULE(controle) {
 							//1ª parte - obter o valor armazenado na memoria
 
 						enable_mem_dados.write(true);
-						write_mem_dados = false;
+						write_mem_dados.write(false);
 
 						//Seletor para leitura
 						//O valor false vai fazer com que se pegue o
@@ -269,15 +269,15 @@ SC_MODULE(controle) {
 				break;
 
 			case 8: //o PC ja leu a instrucao do jump
-						//entao precisamos fechar o sinal para que 
-						//ele nao fique aberto toda hora
+					//entao precisamos fechar o sinal para que 
+					//ele nao fique aberto toda hora
 				pc_jump.write(false);
 				estado_atual = 2;
 				break;
 
 
 			case 9: //FECHAR OS CANAIS ABERTOS - FINALIZAÇÃO
-
+				
 				enable_banco_reg.write(false);
 				enable_mem_dados.write(false);
 
@@ -298,7 +298,7 @@ SC_MODULE(controle) {
 				enable_banco_reg.write(true);
 				write_banco_reg.write(true);
 
-				pipeline_reg_enable.write(false); //parar a propagação do pipeline
+				//pipeline_reg_enable.write(false); //parar a propagação do pipeline
 
 				estado_atual = 9;
 				break;

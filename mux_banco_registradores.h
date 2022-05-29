@@ -13,7 +13,7 @@ SC_MODULE(mux_banco_registradores) {
 	sc_in <sc_uint<2>> seletor;
 
 
-	sc_in < sc_uint<32> > resultado_ula;
+	sc_in < sc_int<32> > resultado_ula;
 	sc_in < sc_uint<32> > valor_memoria;
 	sc_in < sc_uint<9> > imediato;
 
@@ -21,7 +21,7 @@ SC_MODULE(mux_banco_registradores) {
 
 
 //ENTRADA NO BANCO DE REGISTRADORES
-	sc_out <sc_uint<32>> valor_saida;
+	sc_out <sc_int<32>> valor_saida;
 
 
 	SC_CTOR(mux_banco_registradores) {

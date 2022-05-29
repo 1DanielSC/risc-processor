@@ -6,15 +6,15 @@ using namespace sc_core;
 SC_MODULE(memoria_dados) {
 
 
-	std::vector<sc_uint<32>> banco;
+	sc_signal<sc_int<32>> * banco;
 
 	sc_in <bool> enable;
 	sc_in <bool> write;
 	sc_in < sc_uint<9> > endereco;
-	sc_in < sc_uint<32> > valor_entrada;
+	sc_in < sc_int<32> > valor_entrada;
 
 
-	sc_out <sc_uint<32>> valor_saida;
+	sc_out <sc_int<32>> valor_saida;
 
 
 	sc_in<bool> clk;
@@ -24,7 +24,7 @@ SC_MODULE(memoria_dados) {
 
 		SC_METHOD(func); 
 		sensitive << clk.pos(); 
-		banco = std::vector<sc_uint<32>>(512);
+		banco = new sc_signal<sc_uint<32>>[512];
 	}
 
 	void func() {

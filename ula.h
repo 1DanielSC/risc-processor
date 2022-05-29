@@ -5,8 +5,8 @@ using namespace sc_core;
 SC_MODULE(ula) {
 
 	sc_in< sc_uint<5> > opcode;
-	sc_in< sc_uint<32> > operando1;
-	sc_in< sc_uint<32> > operando2;
+	sc_in< sc_int<32> > operando1;
+	sc_in< sc_int<32> > operando2;
 
 	sc_in <bool> reset_zn;
 

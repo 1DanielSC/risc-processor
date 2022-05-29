@@ -4,5 +4,4 @@ memset 3 40
 memset 4 3
 memset 5 1
 memset 6 1
-LD 4 1
-ADD 1 2 3
+LD 4 1 1

@@ -84,8 +84,8 @@ SC_MODULE(processador){
 
 
 //BANCO DE REGISTRADORES
-	sc_signal <sc_uint<32>> sinal_op1_valor;
-	sc_signal <sc_uint<32>> sinal_op2_valor;
+	sc_signal <sc_int<32>> sinal_op1_valor;
+	sc_signal <sc_int<32>> sinal_op2_valor;
 
 
 //PC
@@ -103,7 +103,7 @@ SC_MODULE(processador){
 	sc_signal <sc_uint<32>> sinal_saida_memoria_dados;
 	sc_signal <sc_uint<9>> sinal_valor_imediato;
 
-	sc_signal <sc_uint<32>> sinal_mux_dados_valor_saida;
+	sc_signal <sc_int<32>> sinal_mux_dados_valor_saida;
 
 
 //ULA
@@ -275,7 +275,7 @@ SC_MODULE(processador){
 				}
 				else{
 					int posicao = operandos[0];
-					sc_uint<32> valor = operandos[1];
+					sc_int<32> valor = operandos[1];
 					MEM_DADOS.banco[posicao]=valor;
 				}
 				
