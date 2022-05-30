@@ -28,7 +28,7 @@ Loading values into the data memory (RAM):
 - memset memory_position value
   >memset 6 4
 
-Processor instruction:
+Followed by instructions supported by this processor:
 
 - OPCODE OP1 OP2 OP3
     >OPCODEs available: ADD, SUB, AND, OR, NOT, XOR, LD, ST, LI, J, JZ, JN
