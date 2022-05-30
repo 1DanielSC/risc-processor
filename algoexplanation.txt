@@ -1,4 +1,0 @@
-to run = export SYSTEMC_HOME=/usr/local/systemc-2.3.1/
-g++ -std=c++11 -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -Wl,-rpath=$SYSTEMC_HOME/lib-linux64 -o main main.cpp -lsystemc -lm
-
-algo1 = does for(int i=inicio(5);i<size(4);i+=jmp(6))
