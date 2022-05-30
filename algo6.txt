@@ -4,8 +4,10 @@ memset 3 3
 memset 4 4
 LD 1 0 1
 LD 2 0 2
-LD 2 0 2
 LD 3 0 3
+LD 4 0 4
+J 0 0 8
 ADD 1 2 2
 ADD 2 3 3
 ADD 3 4 4
+ADD 2 3 5
