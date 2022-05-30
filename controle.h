@@ -93,8 +93,8 @@ SC_MODULE(controle) {
 	}
 
 	void func() {
-		//cout<<"state "<<estado_atual<<endl;
-		//sleep(1);
+
+		sleep(1);
 		switch(estado_atual){
 
 			case 0:	//fetch instrução 
