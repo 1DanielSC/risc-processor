@@ -16,7 +16,7 @@ SC_MODULE(pc) {
 
 
 
-	SC_CTOR(ula) {
+	SC_CTOR(pc) {
 
 		SC_METHOD(func); 
 		sensitive << clk.pos(); 
@@ -24,10 +24,11 @@ SC_MODULE(pc) {
 	}
 
 	void func() {
-
+		//cout<<"CONTADOR PC: "<<count<<endl;
 		if(enable.read()){
-			count++;
 			endereco_instrucao.write(count);
+			//std::cout << "Endereco de instrucao "<< count<<" enviado para a mem. de instrucoes!" << std::endl;
+			count++;
 		}
 		else if(pc_jump.read()){
 			count = instrucao_jump.read();

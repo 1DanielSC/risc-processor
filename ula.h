@@ -5,8 +5,8 @@ using namespace sc_core;
 SC_MODULE(ula) {
 
 	sc_in< sc_uint<5> > opcode;
-	sc_in< sc_uint<32> > operando1;
-	sc_in< sc_uint<32> > operando2;
+	sc_in< sc_int<32> > operando1;
+	sc_in< sc_int<32> > operando2;
 
 	sc_in <bool> reset_zn;
 
@@ -14,7 +14,7 @@ SC_MODULE(ula) {
 	sc_out< bool > zero;
 	sc_out< bool > negativo;
 
-	sc_out<sc_uint<32>> resultado;
+	sc_out<sc_int<32>> resultado;
 
 	SC_CTOR(ula) {
 
@@ -24,7 +24,7 @@ SC_MODULE(ula) {
 	}
 
 	void computar() {
-
+		//std::cout<<"ULA EM EXECUCAO" << std::endl;
 		if(reset_zn.read() == true){
 			zero.write(false);
 			negativo.write(false);
@@ -76,5 +76,5 @@ SC_MODULE(ula) {
 
 		zero.write(operando1.read() == operando2.read());
 		negativo.write(operando1.read() < operando2.read());
-
+}
 };

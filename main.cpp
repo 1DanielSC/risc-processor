@@ -1,57 +1,42 @@
-#include <iostream>
-#include<map>
-#include<string>
-#include <vector>
-#include <sstream>
+#include <systemc.h>
+#include "processador.h"
 
 
-std::map<std::string,int> code={
-    {"AND",0},
-    {"OR",1},
-    {"XOR",2},
-    {"NOT",3},
-    {"CMP",4},
-    {"SUB",5},
-    {"LD",6},
-    {"ST",7},
-    {"J",8},
-    {"JN",9},
-    {"JZ",10}
-};
 
-int convertToInstruction(std::string operacao,int op1,int op2,int op3){
-    int opcode=code[operacao];
-    return opcode + (op1<<5) + (op2<<14) + (op3<<23);
-}
+
 
 
 //compile then run it with ./main < file.txt
-int main(){
-    processador PROCESSADOR;
-    std::string line;
-    int id=0;
-    while(std::getline (std::cin,line)){
-        std::stringstream ss(line); 
-        std::string operation;
-        ss>>operation;
+int sc_main(int argc, char* argv[]) {
+    
+    processador PROCESSADOR("PROC");
+    sc_signal<bool> clock;
+    PROCESSADOR.sinal_clock(clock);
+    
+    
+    
+    int numberCycles=0;
+	
+    while (not sc_end_of_simulation_invoked()) {
+		clock = 0;
+        sc_start(1, SC_NS);
 
-        std::vector<int> operandos;
-        int valor;
-        while(ss>>valor){
-            operandos.push_back(valor);
-        }
+		clock = 1;
+		sc_start(1, SC_NS);
+		numberCycles++;
+	}
 
-        while(operandos.size()<3){
-            operandos.push_back(0);
-        }
-        if(operation!="memset"){
-            sc_uint<32> instrucao = convertToInstruction(operation,operandos[0],operandos[1],operandos[2]);
-            PROCESSADOR.MEM_INSTRUCOES.instrucoes[id++]=instrucao;
-        }
-        else{
-            int posicao = operandos[0];
-            sc_uint<32> valor = operandos[1];
-            PROCESSADOR.MEM_DADOS.banco[posicao]=valor;
-        }
-    }
+    
+    std::cout<<std::endl;
+    std::cout<< "Numero de ciclos de clock: "<< numberCycles<<std::endl;
+    std::cout<<std::endl;
+    
+    std::cout<<"Banco de Registradores\tMemoria de Instrucoes\tMemoria de Dados" << std::endl;
+    for(int i=0;i<20;i++)
+        std::cout <<"["<<i<<"]: " <<PROCESSADOR.BANCO_REGISTRADORES.banco[i]<< "\t\t\t" 
+            << "["<<i<<"]: " <<PROCESSADOR.MEM_INSTRUCOES.instrucoes[i]<< "\t\t\t\t"
+            << "["<<i<<"]: " <<PROCESSADOR.MEM_DADOS.banco[i] << std::endl;
+
+    cout<<endl;
+    return 0;
 }
